@@ -20,6 +20,12 @@ type Candidate struct {
 	Assignee string `json:"assignee"`
 }
 
+type Assignee struct {
+	ID string  `json:"_id"`
+	Name string `json:"name"`
+	Department string `json:"department"`
+}
+
 func main()  {
 	router:=mux.NewRouter()
 	router.HandleFunc("/",helloFunc).Methods("GET")
