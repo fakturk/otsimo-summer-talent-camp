@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fakturk/otsimo-summer-talent-camp/db"
+	"github.com/fakturk/otsimo-summer-talent-camp/helper"
 	"github.com/fakturk/otsimo-summer-talent-camp/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
@@ -21,7 +22,7 @@ func GetCandidates(w http.ResponseWriter, r *http.Request) {
 	cur, err := collection.Find(context.TODO(), bson.M{})
 
 	if err != nil {
-		fmt.Println(err)
+		helper.GetError(err, w)
 		return
 	}
 
@@ -52,5 +53,23 @@ func GetCandidates(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateCandidate(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 
+	var candidate model.Candidate
+
+	// we decode our body request params
+	_ = json.NewDecoder(r.Body).Decode(&candidate)
+
+	// connect db
+	collection := db.ConnectDB()
+
+	// insert our book model.
+	result, err := collection.InsertOne(context.TODO(), candidate)
+
+	if err != nil {
+		helper.GetError(err, w)
+		return
+	}
+
+	json.NewEncoder(w).Encode(result)
 }
