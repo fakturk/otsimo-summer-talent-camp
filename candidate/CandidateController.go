@@ -12,7 +12,7 @@ import (
 	"net/http"
 )
 
-func GetCandidates(w http.ResponseWriter, r *http.Request) {
+func GetCandidatesFunc(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var candidates []model.Candidate
 	//Connection mongoDB with helper class
@@ -52,7 +52,7 @@ func GetCandidates(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(candidates) // encode similar to serialize process.
 }
 
-func CreateCandidate(w http.ResponseWriter, r *http.Request) {
+func CreateCandidateFunc(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var candidate model.Candidate
@@ -60,16 +60,10 @@ func CreateCandidate(w http.ResponseWriter, r *http.Request) {
 	// we decode our body request params
 	_ = json.NewDecoder(r.Body).Decode(&candidate)
 
-	// connect db
-	collection := db.ConnectDB()
-
-	// insert our book model.
-	result, err := collection.InsertOne(context.TODO(), candidate)
-
+	_, result, err :=CreateCandidate(candidate)
 	if err != nil {
 		helper.GetError(err, w)
 		return
 	}
-
 	json.NewEncoder(w).Encode(result)
 }

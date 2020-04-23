@@ -14,8 +14,8 @@ func main()  {
 	router:=mux.NewRouter()
 	db.ConnectDB()
 	router.HandleFunc("/",helloFunc).Methods("GET")
-	router.HandleFunc("/candidate/create",candidate.CreateCandidate).Methods("POST")
-	router.HandleFunc("/candidates",candidate.GetCandidates).Methods("GET")
+	router.HandleFunc("/candidate/create",candidate.CreateCandidateFunc).Methods("POST")
+	router.HandleFunc("/candidates",candidate.GetCandidatesFunc).Methods("GET")
 	http.ListenAndServe(":8080",router)
 
 }
