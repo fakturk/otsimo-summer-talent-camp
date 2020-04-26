@@ -1,16 +1,16 @@
 package model
 
 type Candidate struct {
-	ID string  `json:"_id"`
-	FirstName string `json:"first_name"`
-	LastName string `json:"last_name"`
+	ID string `bson:"_id" json:"id"`
+	First_Name string `json:"first_name"`
+	Last_Name string `json:"last_name"`
 	Email string `json:"email"`
 	Department string `json:"department"`
 	University string `json:"university"`
 	Experience bool `json:"experience"`
 	Status string `json:"status"`
-	MeetingCount int `json:"meeting_count"`
-	NextMeeting string `json:"next_meeting"`
+	Meeting_Count int `json:"meeting_count"`
+	Next_Meeting string `json:"next_meeting"`
 	Assignee string `json:"assignee"`
 }
 
