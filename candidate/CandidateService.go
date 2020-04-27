@@ -86,14 +86,31 @@ func DeleteCandidate(_id string) (*mongo.DeleteResult, error) {
 //
 //}
 //
-//func DenyCandidate (_id string) error{
-//
-//}
-//
-//func AcceptCandidate(_id string) error{
-//
-//}
-//
+func DenyCandidate(_id string) (*mongo.UpdateResult, error) {
+	collection := db.ConnectDB()
+	var candidate model.Candidate
+
+	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
+	filter := bson.M{"_id": _id}
+	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
+	candidate.Status="Denied"
+	updateResult,err:=collection.ReplaceOne(context.TODO(),filter,candidate)
+
+	return updateResult,err
+}
+
+func AcceptCandidate(_id string) (*mongo.UpdateResult, error) {
+	collection := db.ConnectDB()
+	var candidate model.Candidate
+
+	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
+	filter := bson.M{"_id": _id}
+	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
+	candidate.Status="Accepted"
+	updateResult,err:=collection.ReplaceOne(context.TODO(),filter,candidate)
+
+	return updateResult,err
+}
 //func FindAssigneeIDByName (name string) string{
 //
 //}
