@@ -2,6 +2,7 @@ package candidate
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/fakturk/otsimo-summer-talent-camp/db"
 	"github.com/fakturk/otsimo-summer-talent-camp/model"
@@ -48,12 +49,23 @@ func GetAllCandidates() ([]model.Candidate, error) {
 func CreateCandidate(candidate model.Candidate) (model.Candidate, *mongo.InsertOneResult, error) {
 	// connect db
 	collection := db.ConnectDB("Candidates")
+	var err error
+	var result *mongo.InsertOneResult
+	
+	//if the candidates department is not marketing, design or development, we return an error
+	if candidate.Department!="Marketing" ||  candidate.Department!="Design" || candidate.Department!="Development" {
+		fmt.Println("inside department error")
+		err= errors.New("Deparment should be Marketing, Design or Development")
+	}
+
 
 	//create candidate unique id
 	candidate.ID=primitive.NewObjectID().Hex()
 
 	// insert our book model.
-	result, err := collection.InsertOne(context.TODO(), candidate)
+	if err==nil {
+		result, err = collection.InsertOne(context.TODO(), candidate)
+	}
 
 	return candidate,result,err
 }
