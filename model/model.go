@@ -13,6 +13,7 @@ type Candidate struct {
 	Status string `json:"status"`
 	Meeting_Count int `json:"meeting_count"`
 	Next_Meeting *time.Time `json:"next_meeting"`
+	Application_Date *time.Time `json:"application_date"`
 	Assignee string `json:"assignee"`
 }
 
