@@ -2,7 +2,6 @@ package assignee
 
 import (
 	"context"
-	"fmt"
 	"github.com/fakturk/otsimo-summer-talent-camp/db"
 	"github.com/fakturk/otsimo-summer-talent-camp/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,7 +18,16 @@ func FindAssigneeIDByName(name string) (string, error) {
 	//we make our search case insensitive by using regex
 	filter := bson.M{"name": primitive.Regex{Pattern: name, Options: ""}}
 	err := collection.FindOne(context.TODO(), filter).Decode(&assignee)
-	fmt.Println(assignee)
+	//fmt.Println(assignee)
 	return assignee.ID,err
 }
 
+func GetAssignee(_id string) (model.Assignee, error) {
+	var assignee model.Assignee
+
+	collection := db.ConnectDB("Assignees")
+	filter := bson.M{"_id": _id}
+	err := collection.FindOne(context.TODO(), filter).Decode(&assignee)
+
+	return assignee,err
+}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/fakturk/otsimo-summer-talent-camp/assignee"
 	"github.com/fakturk/otsimo-summer-talent-camp/db"
 	"github.com/fakturk/otsimo-summer-talent-camp/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -46,19 +47,30 @@ func GetAllCandidates() ([]model.Candidate, error) {
 	}
 	return candidates,err
 }
+
+
 func CreateCandidate(candidate model.Candidate) (model.Candidate, *mongo.InsertOneResult, error) {
 	// connect db
 	collection := db.ConnectDB("Candidates")
 	var err error
 	var result *mongo.InsertOneResult
+	var candidatesAssignee model.Assignee
 
 	//if the candidates department is not marketing, design or development, we return an error
 	if !(candidate.Department=="Marketing" ||  candidate.Department=="Design" || candidate.Department=="Development") {
 		//fmt.Println("inside department error")
 		err= errors.New("Deparment should be Marketing, Design or Development")
-	} else if candidate.Status!="Pending"{
+	}
+
+	//check assignee department
+	candidatesAssignee,err=assignee.GetAssignee(candidate.Assignee)
+	if candidate.Department!=candidatesAssignee.Department{
+		err= errors.New("New candidates should have an assignee who is working in the department that the candidate is applying to work.")
+	}
+	if candidate.Status!="Pending"{
 		candidate.Status="Pending"
-	} else if candidate.Meeting_Count!=0{
+	}
+	if candidate.Meeting_Count!=0{
 		candidate.Meeting_Count=0
 	}
 
@@ -104,6 +116,11 @@ func ArrangeMeeting(_id string, meetingTime *time.Time) (*mongo.UpdateResult, er
 	filter := bson.M{"_id": _id}
 	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
 	candidate.Next_Meeting=meetingTime
+	//if candidates next meeting is their 4th meeting (or in another words if their meeting count is 3)
+	//their assigne changed to Zafer who is the CEO
+	if candidate.Meeting_Count==3 {
+		candidate.Assignee="Zafer"
+	}
 	updateResult,err:=collection.ReplaceOne(context.TODO(),filter,candidate)
 
 	return updateResult,err
@@ -117,6 +134,9 @@ func CompleteMeeting(_id string) (*mongo.UpdateResult, error) {
 	filter := bson.M{"_id": _id}
 	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
 	candidate.Meeting_Count+=1
+	if candidate.Meeting_Count>0&&candidate.Meeting_Count<4 {
+		candidate.Status="In Progress"
+	}
 	candidate.Next_Meeting=nil
 	updateResult,err:=collection.ReplaceOne(context.TODO(),filter,candidate)
 
@@ -142,9 +162,17 @@ func AcceptCandidate(_id string) (*mongo.UpdateResult, error) {
 
 	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
 	filter := bson.M{"_id": _id}
-	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
-	candidate.Status="Accepted"
-	updateResult,err:=collection.ReplaceOne(context.TODO(),filter,candidate)
+	var err error
+	var updateResult *mongo.UpdateResult
+	err = collection.FindOne(context.TODO(), filter).Decode(&candidate)
+	if candidate.Meeting_Count<4 {
+		err = errors.New("Candidates cannot be accepted before the completion of 4 meetings.")
+	}
+	if err==nil {
+		candidate.Status="Accepted"
+		updateResult,err=collection.ReplaceOne(context.TODO(),filter,candidate)
+	}
+
 
 	return updateResult,err
 }
