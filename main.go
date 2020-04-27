@@ -15,6 +15,7 @@ func main()  {
 	db.ConnectDB()
 	router.HandleFunc("/",helloFunc).Methods("GET")
 	router.HandleFunc("/candidate/create",candidate.CreateCandidateFunc).Methods("POST")
+	router.HandleFunc("/candidate/read/{id}",candidate.ReadCandidateFunc).Methods("GET")
 	router.HandleFunc("/candidates",candidate.GetCandidatesFunc).Methods("GET")
 	http.ListenAndServe(":8080",router)
 

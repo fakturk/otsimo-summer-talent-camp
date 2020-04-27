@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Candidate struct {
 	ID string `bson:"_id" json:"id"`
 	First_Name string `json:"first_name"`
@@ -10,7 +12,7 @@ type Candidate struct {
 	Experience bool `json:"experience"`
 	Status string `json:"status"`
 	Meeting_Count int `json:"meeting_count"`
-	Next_Meeting string `json:"next_meeting"`
+	Next_Meeting time.Time `json:"next_meeting"`
 	Assignee string `json:"assignee"`
 }
 

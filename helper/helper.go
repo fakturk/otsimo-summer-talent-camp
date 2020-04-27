@@ -1,7 +1,6 @@
 package helper// ErrorResponse : This is error model.
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 )
 
@@ -14,7 +13,7 @@ type ErrorResponse struct {
 // If you want to export your function. You must to start upper case function name. Otherwise you won't see your function when you import that on other class.
 func GetError(err error, w http.ResponseWriter) {
 
-	log.Fatal(err.Error())
+	//log.Fatal(err.Error())
 	var response = ErrorResponse{
 		ErrorMessage: err.Error(),
 		StatusCode:   http.StatusInternalServerError,
