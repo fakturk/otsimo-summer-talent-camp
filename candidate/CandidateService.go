@@ -92,10 +92,21 @@ func ArrangeMeeting(_id string, meetingTime *time.Time) (*mongo.UpdateResult, er
 
 	return updateResult,err
 }
-//func CompleteMeeting (_id string) error{
-//
-//}
-//
+//increase meeting count by 1 and make next meeting null
+func CompleteMeeting(_id string) (*mongo.UpdateResult, error) {
+	collection := db.ConnectDB()
+	var candidate model.Candidate
+
+	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
+	filter := bson.M{"_id": _id}
+	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
+	candidate.Meeting_Count+=1
+	candidate.Next_Meeting=nil
+	updateResult,err:=collection.ReplaceOne(context.TODO(),filter,candidate)
+
+	return updateResult,err
+}
+
 func DenyCandidate(_id string) (*mongo.UpdateResult, error) {
 	collection := db.ConnectDB()
 	var candidate model.Candidate

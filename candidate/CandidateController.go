@@ -137,5 +137,25 @@ func ArrangeMeetingFunc(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func CompleteMeetingFunc(w http.ResponseWriter, r *http.Request) {
+	// set header.
+	w.Header().Set("Content-Type", "application/json")
+
+	// we get params with mux.
+	var params = mux.Vars(r)
+	id := params["id"]
+
+	result,err :=CompleteMeeting(id)
+	if err != nil {
+		helper.GetError(err, w)
+		return
+
+	}
+
+	json.NewEncoder(w).Encode(result)
+
+}
+
+
 
 
