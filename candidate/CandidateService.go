@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
+	"regexp"
 	"time"
 )
 
@@ -66,6 +67,15 @@ func CreateCandidate(candidate model.Candidate) (model.Candidate, *mongo.InsertO
 	candidatesAssignee,err=assignee.GetAssignee(candidate.Assignee)
 	if candidate.Department!=candidatesAssignee.Department{
 		err= errors.New("New candidates should have an assignee who is working in the department that the candidate is applying to work.")
+	}
+
+	//validate email according to HTML specification https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+	//However this validation specification did not forcifully use a@b.c format instead it uses a@b format , dot is not a must in their document
+	//because of it I changed the regex that accept only a@b.c format
+	var rxEmail = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])*$")
+	if !rxEmail.MatchString(candidate.Email) {
+		err=errors.New("Not a valid email address")
+
 	}
 	if candidate.Status!="Pending"{
 		candidate.Status="Pending"
