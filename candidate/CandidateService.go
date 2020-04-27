@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
+	"time"
 )
 
 func GetAllCandidates() ([]model.Candidate, error) {
@@ -78,10 +79,19 @@ func DeleteCandidate(_id string) (*mongo.DeleteResult, error) {
 	fmt.Println(deleteResult)
 	return deleteResult,err
 }
-//
-//func ArrangeMeeting(_id string, nextMeetingTime *time.Time) error{
-//
-//}
+
+func ArrangeMeeting(_id string, meetingTime *time.Time) (*mongo.UpdateResult, error) {
+	collection := db.ConnectDB()
+	var candidate model.Candidate
+
+	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
+	filter := bson.M{"_id": _id}
+	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
+	candidate.Next_Meeting=meetingTime
+	updateResult,err:=collection.ReplaceOne(context.TODO(),filter,candidate)
+
+	return updateResult,err
+}
 //func CompleteMeeting (_id string) error{
 //
 //}

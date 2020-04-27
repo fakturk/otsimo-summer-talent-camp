@@ -20,7 +20,7 @@ func main()  {
 	router.HandleFunc("/candidate/accept/{id}",candidate.AcceptCandidateFunc).Methods("GET")
 	router.HandleFunc("/candidate/deny/{id}",candidate.DenyCandidateFunc).Methods("GET")
 	router.HandleFunc("/candidates",candidate.GetCandidatesFunc).Methods("GET")
-	//router.HandleFunc("/meeting/arrange",candidate.ArrangeMeetingFunc).Methods("POST")
+	router.HandleFunc("/meeting/arrange/{id}",candidate.ArrangeMeetingFunc).Methods("POST")
 	//router.HandleFunc("/meeting/complete/{id}",candidate.CompleteMeetingFunc).Methods("GET")
 
 	http.ListenAndServe(":8080",router)

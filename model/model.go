@@ -21,3 +21,7 @@ type Assignee struct {
 	Name string `json:"name"`
 	Department string `json:"department"`
 }
+
+type MeetingTime struct {
+	MeetingTime *time.Time `json:"meeting_time"`
+}
