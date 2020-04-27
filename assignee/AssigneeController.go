@@ -20,3 +20,17 @@ func FindAssigneeIDByNameFunc(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
+func FindAssigneesCandidatesFunc(w http.ResponseWriter, r *http.Request) {
+	// we get params with mux.
+	var params = mux.Vars(r)
+	id := params["id"]
+	result,err :=FindAssigneesCandidates(id)
+	if err != nil {
+		helper.GetError(err, w)
+		return
+
+	}
+
+	json.NewEncoder(w).Encode(result)
+}
+

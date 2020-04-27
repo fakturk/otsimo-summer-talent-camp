@@ -38,7 +38,7 @@ func GetAllCandidates() ([]model.Candidate, error) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(candidate)
+		//fmt.Println(candidate)
 		// add item our array
 		candidates = append(candidates, candidate)
 	}

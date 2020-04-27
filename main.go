@@ -22,6 +22,7 @@ func main()  {
 	router.HandleFunc("/meeting/arrange/{id}",candidate.ArrangeMeetingFunc).Methods("POST")
 	router.HandleFunc("/meeting/complete/{id}",candidate.CompleteMeetingFunc).Methods("GET")
 	router.HandleFunc("/assignee/findid/{name}",assignee.FindAssigneeIDByNameFunc).Methods("GET")
+	router.HandleFunc("/assignee/candidates/{id}",assignee.FindAssigneesCandidatesFunc).Methods("GET")
 
 	http.ListenAndServe(":8080",router)
 
