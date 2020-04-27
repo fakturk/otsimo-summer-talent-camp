@@ -59,8 +59,6 @@ func CreateCandidate(candidate model.Candidate) (model.Candidate, *mongo.InsertO
 
 func ReadCandidate(_id string) (model.Candidate, error){
 	var candidate model.Candidate
-	// we get params with mux.
-
 
 	collection := db.ConnectDB()
 
@@ -69,10 +67,17 @@ func ReadCandidate(_id string) (model.Candidate, error){
 	err := collection.FindOne(context.TODO(), filter).Decode(&candidate)
 	return candidate,err
 }
-//
-//func DeleteCandidate(_id string) error{
-//
-//}
+
+func DeleteCandidate(_id string) (*mongo.DeleteResult, error) {
+
+	collection := db.ConnectDB()
+
+	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
+	filter := bson.M{"_id": _id}
+	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
+	fmt.Println(deleteResult)
+	return deleteResult,err
+}
 //
 //func ArrangeMeeting(_id string, nextMeetingTime *time.Time) error{
 //

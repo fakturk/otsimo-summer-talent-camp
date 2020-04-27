@@ -12,7 +12,7 @@ type Candidate struct {
 	Experience bool `json:"experience"`
 	Status string `json:"status"`
 	Meeting_Count int `json:"meeting_count"`
-	Next_Meeting time.Time `json:"next_meeting"`
+	Next_Meeting *time.Time `json:"next_meeting"`
 	Assignee string `json:"assignee"`
 }
 

@@ -39,6 +39,9 @@ func CreateCandidateFunc(w http.ResponseWriter, r *http.Request) {
 func ReadCandidateFunc(w http.ResponseWriter, r *http.Request) {
 	// set header.
 	w.Header().Set("Content-Type", "application/json")
+
+	// we get params with mux.
+
 	var params = mux.Vars(r)
 	id := params["id"]
 
@@ -51,7 +54,23 @@ func ReadCandidateFunc(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(candidate)
 
+}
 
+func DeleteCandidateFunc(w http.ResponseWriter, r *http.Request) {
+	// set header.
+	w.Header().Set("Content-Type", "application/json")
 
+	// we get params with mux.
+	var params = mux.Vars(r)
+	id := params["id"]
+
+	result, err :=DeleteCandidate(id)
+	if err != nil {
+		helper.GetError(err, w)
+		return
+
+	}
+
+	json.NewEncoder(w).Encode(result)
 
 }
