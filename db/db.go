@@ -8,7 +8,7 @@ import (
 	"log"
 )
 
-func ConnectDB() *mongo.Collection {
+func ConnectDB(collectionName string) *mongo.Collection {
 
 	// Set client options
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
@@ -22,7 +22,7 @@ func ConnectDB() *mongo.Collection {
 
 	fmt.Println("Connected to MongoDB!")
 
-	collection := client.Database("Otsimo").Collection("Candidates")
+	collection := client.Database("Otsimo").Collection(collectionName)
 
 	return collection
 }

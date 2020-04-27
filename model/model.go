@@ -17,7 +17,7 @@ type Candidate struct {
 }
 
 type Assignee struct {
-	ID string  `json:"_id"`
+	ID string `bson:"_id" json:"id"`
 	Name string `json:"name"`
 	Department string `json:"department"`
 }

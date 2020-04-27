@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/fakturk/otsimo-summer-talent-camp/assignee"
 	"github.com/fakturk/otsimo-summer-talent-camp/candidate"
-	"github.com/fakturk/otsimo-summer-talent-camp/db"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -12,7 +12,6 @@ import (
 
 func main()  {
 	router:=mux.NewRouter()
-	db.ConnectDB()
 	router.HandleFunc("/",helloFunc).Methods("GET")
 	router.HandleFunc("/candidate/create",candidate.CreateCandidateFunc).Methods("POST")
 	router.HandleFunc("/candidate/read/{id}",candidate.ReadCandidateFunc).Methods("GET")
@@ -22,6 +21,7 @@ func main()  {
 	router.HandleFunc("/candidates",candidate.GetCandidatesFunc).Methods("GET")
 	router.HandleFunc("/meeting/arrange/{id}",candidate.ArrangeMeetingFunc).Methods("POST")
 	router.HandleFunc("/meeting/complete/{id}",candidate.CompleteMeetingFunc).Methods("GET")
+	router.HandleFunc("/assignee/findid/{name}",assignee.FindAssigneeIDByNameFunc).Methods("GET")
 
 	http.ListenAndServe(":8080",router)
 

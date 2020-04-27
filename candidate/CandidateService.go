@@ -15,7 +15,7 @@ import (
 func GetAllCandidates() ([]model.Candidate, error) {
 	var candidates []model.Candidate
 	//Connection mongoDB with helper class
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 	fmt.Println(collection)
 	// bson.M{},  we passed empty filter. So we want to get all data.
 	cur, err := collection.Find(context.TODO(), bson.M{})
@@ -47,7 +47,7 @@ func GetAllCandidates() ([]model.Candidate, error) {
 }
 func CreateCandidate(candidate model.Candidate) (model.Candidate, *mongo.InsertOneResult, error) {
 	// connect db
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 
 	//create candidate unique id
 	candidate.ID=primitive.NewObjectID().Hex()
@@ -61,7 +61,7 @@ func CreateCandidate(candidate model.Candidate) (model.Candidate, *mongo.InsertO
 func ReadCandidate(_id string) (model.Candidate, error){
 	var candidate model.Candidate
 
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 
 	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
 	filter := bson.M{"_id": _id}
@@ -71,7 +71,7 @@ func ReadCandidate(_id string) (model.Candidate, error){
 
 func DeleteCandidate(_id string) (*mongo.DeleteResult, error) {
 
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 
 	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
 	filter := bson.M{"_id": _id}
@@ -81,7 +81,7 @@ func DeleteCandidate(_id string) (*mongo.DeleteResult, error) {
 }
 
 func ArrangeMeeting(_id string, meetingTime *time.Time) (*mongo.UpdateResult, error) {
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 	var candidate model.Candidate
 
 	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
@@ -94,7 +94,7 @@ func ArrangeMeeting(_id string, meetingTime *time.Time) (*mongo.UpdateResult, er
 }
 //increase meeting count by 1 and make next meeting null
 func CompleteMeeting(_id string) (*mongo.UpdateResult, error) {
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 	var candidate model.Candidate
 
 	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
@@ -108,7 +108,7 @@ func CompleteMeeting(_id string) (*mongo.UpdateResult, error) {
 }
 
 func DenyCandidate(_id string) (*mongo.UpdateResult, error) {
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 	var candidate model.Candidate
 
 	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
@@ -121,7 +121,7 @@ func DenyCandidate(_id string) (*mongo.UpdateResult, error) {
 }
 
 func AcceptCandidate(_id string) (*mongo.UpdateResult, error) {
-	collection := db.ConnectDB()
+	collection := db.ConnectDB("Candidates")
 	var candidate model.Candidate
 
 	// We create filter. If it is unnecessary to sort data for you, you can use bson.M{}
