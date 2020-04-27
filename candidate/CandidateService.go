@@ -51,11 +51,15 @@ func CreateCandidate(candidate model.Candidate) (model.Candidate, *mongo.InsertO
 	collection := db.ConnectDB("Candidates")
 	var err error
 	var result *mongo.InsertOneResult
-	
+
 	//if the candidates department is not marketing, design or development, we return an error
-	if candidate.Department!="Marketing" ||  candidate.Department!="Design" || candidate.Department!="Development" {
-		fmt.Println("inside department error")
+	if !(candidate.Department=="Marketing" ||  candidate.Department=="Design" || candidate.Department=="Development") {
+		//fmt.Println("inside department error")
 		err= errors.New("Deparment should be Marketing, Design or Development")
+	} else if candidate.Status!="Pending"{
+		candidate.Status="Pending"
+	} else if candidate.Meeting_Count!=0{
+		candidate.Meeting_Count=0
 	}
 
 
