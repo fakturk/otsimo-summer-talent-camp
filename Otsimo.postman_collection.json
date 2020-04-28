@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "64ce182c-ffe1-4c28-be18-6148e6029b57",
+		"name": "Otsimo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get candidates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/candidates",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"candidates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add candidate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"_id\": \"\",\n        \"first_name\": \"Fatih\",\n        \"last_name\": \"Akturk\",\n        \"email\": \"f.akturk@gmail.com\",\n        \"department\": \"Development\",\n        \"university\": \"TOBB\",\n        \"experience\": true,\n        \"status\": \"Pending\",\n        \"meeting_count\": 0,\n        \"next_meeting\": null,\n        \"application_date\":\"2020-04-27T13:40:00.000+00:00\",\n        \"assignee\": \"5bb6368f55c98300013a087d\"\n    }"
+				},
+				"url": {
+					"raw": "{{url}}/candidate/create",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"candidate",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read Candidate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/candidate/read/5ea5f4a4516591b370f5241f",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"candidate",
+						"read",
+						"5ea5f4a4516591b370f5241f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Candidate",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/candidate/delete/5ea5f4a4516591b370f5241f",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"candidate",
+						"delete",
+						"5ea5f4a4516591b370f5241f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accept Candidate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/candidate/accept/5ea629b6432526b6f08da50d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"candidate",
+						"accept",
+						"5ea629b6432526b6f08da50d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deny Candidate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/candidate/deny/5ea629b6432526b6f08da50d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"candidate",
+						"deny",
+						"5ea629b6432526b6f08da50d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Arrange Meeting",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"meeting_time\":\"2020-05-03T13:40:00.000+00:00\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/meeting/arrange/5ea629b6432526b6f08da50d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"meeting",
+						"arrange",
+						"5ea629b6432526b6f08da50d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Meeting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/meeting/complete/5ea629b6432526b6f08da50d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"meeting",
+						"complete",
+						"5ea629b6432526b6f08da50d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Assignee Id By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/assignee/findid/can",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"assignee",
+						"findid",
+						"can"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Assignees Candidates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/assignee/candidates/5bb6368f55c98300013a087d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"assignee",
+						"candidates",
+						"5bb6368f55c98300013a087d"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

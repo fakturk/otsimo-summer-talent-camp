@@ -186,6 +186,3 @@ func AcceptCandidate(_id string) (*mongo.UpdateResult, error) {
 
 	return updateResult,err
 }
-//func FindAssigneeIDByName (name string) string{
-//
-//}
